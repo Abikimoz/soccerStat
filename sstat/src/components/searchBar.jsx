@@ -9,9 +9,12 @@ function SearchBar() {
           type="search"
           placeholder="Поиск..."
           className="mr-2 form-control-sm"
+          style={{ width: '10%' }}
           aria-label="Search"
         />
-        <Button variant="outline-primary">Найти</Button>
+        <button className="btn btn-outline-primary">
+            <i className="fas fa-search"></i>
+        </button>
       </Form>
     </div>
   );
