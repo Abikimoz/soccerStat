@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
 
 import Navbars from './components/navbars';
+import SearchBar from './components/searchBar'; // Import компонента SearchBar
 
 function App() {
   return (
@@ -9,6 +9,7 @@ function App() {
       <header id="navbar">
         <Navbars />
       </header>
+      <SearchBar />
     </div>
   );
 }

@@ -1,8 +1,5 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Col from 'react-bootstrap/Col';
-import Image from 'react-bootstrap/Image';
+import React from 'react';
+import { Container, Nav, Navbar, Col, Image } from 'react-bootstrap';
 
 function Navbars() {
   return (
