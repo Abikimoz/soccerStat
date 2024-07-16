@@ -8,8 +8,8 @@ function Navbars() {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Col xs={6} md={4}>
-          <Image src="/src/logo.png" rounded />
+        <Col md={1}>
+          <Image src="../logo.png" rounded responsive />
         </Col>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
