@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Navbars from './components/navbars';
-import SearchBar from './components/searchBar'; // Import компонента SearchBar
+import Navbars from './components/Navbars';
+import SearchBar from './components/SearchBar'; // Import компонента SearchBar
 
 function App() {
   return (

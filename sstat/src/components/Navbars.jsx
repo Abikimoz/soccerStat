@@ -6,12 +6,12 @@ function Navbars() {
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
         <Col md={1}>
-          <Image src="../logo.png" rounded responsive />
+          <Image src="logo.png" rounded responsive />
         </Col>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Лиги</Nav.Link>
+            <Nav.Link href="#LeagueInfo">Лиги</Nav.Link>
             <Nav.Link href="#link">Команды</Nav.Link>
           </Nav>
         </Navbar.Collapse>
