@@ -2,14 +2,15 @@ import React from 'react';
 
 const LeagueInfo = ({ league }) => {
   const handleClick = () => {
-    // Выполнение GET-запроса к API при нажатии на блок
-    // Подставьте в `{id}` идентификатор лиги
-    fetch(`http://api.football-data.org/v2/competitions/${league.id}/matches`)
+    fetch(`http://api.football-data.org/v2/competitions/${league.id}/matches`, {
+      headers: {
+        'X-Auth-Token': '810c2e0f4afa45a2939421c74d689cb9'
+      }
+    })
       .then(response => response.json())
       .then(data => {
-        // Обработка данных о матчах
         console.log(data);
-        // Перенаправление на страницу календаря лиги или другие действия
+        // Дополнительные действия при получении данных о матчах, например, отображение на экране
       })
       .catch(error => console.error(error));
   };

@@ -1,7 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Navbars from './components/Navbars';
-import SearchBar from './components/SearchBar'; // Import компонента SearchBar
+import SearchBar from './components/SearchBar';
+import Leagues from './components/Leagues';
 
 function App() {
   return (
@@ -9,7 +10,10 @@ function App() {
       <header id="navbar">
         <Navbars />
       </header>
-      <SearchBar />
+      <main>
+        <SearchBar />
+        <Leagues />
+      </main>
     </div>
   );
 }
