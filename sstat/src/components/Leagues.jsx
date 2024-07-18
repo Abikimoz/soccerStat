@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LeagueInfo from './LeagueInfo';
-import axios from 'axios'; // Импортируем axios
+import axios from 'axios';
 
 const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -10,7 +10,7 @@ function Leagues() {
   const [showLeagueInfo, setShowLeagueInfo] = useState(false);
 
   useEffect(() => {
-    axios.get('/api/v4/competitions', { // Обращаемся к прокси-серверу через axios
+    axios.get('/api/v4/competitions', {
       headers: {
         'X-Auth-Token': apiKey
       }

@@ -10,7 +10,6 @@ const LeagueInfo = ({ league }) => {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        // Дополнительные действия при получении данных о матчах, например, отображение на экране
       })
       .catch(error => console.error(error));
   };
