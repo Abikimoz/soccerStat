@@ -1,10 +1,12 @@
 import React from 'react';
 
+const apiKey = process.env.REACT_APP_API_KEY;
+
 const LeagueInfo = ({ league }) => {
   const handleClick = () => {
     fetch(`http://api.football-data.org/v2/competitions/${league.id}/matches`, {
       headers: {
-        'X-Auth-Token': '810c2e0f4afa45a2939421c74d689cb9'
+        'X-Auth-Token': apiKey
       }
     })
       .then(response => response.json())
