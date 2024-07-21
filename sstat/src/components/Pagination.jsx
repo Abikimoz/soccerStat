@@ -1,5 +1,6 @@
 import React from 'react';
 import Pagination from 'react-bootstrap/Pagination';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CustomPagination = ({ totalPages, activePage, onPageChange }) => {
   const shownPages = 4; // количество страниц, отображаемых в пагинации в обе стороны от текущей страницы
@@ -30,7 +31,9 @@ const CustomPagination = ({ totalPages, activePage, onPageChange }) => {
   );
 
   return (
-    <Pagination>{items}</Pagination>
+    <div className="d-flex justify-content-center my-4">
+      <Pagination>{items}</Pagination>
+    </div>
   );
 };
 
