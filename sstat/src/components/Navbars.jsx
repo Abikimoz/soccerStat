@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Nav, Navbar, Col, Image } from 'react-bootstrap';
 
-function Navbars() {
+export const Navbars = () => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -19,5 +19,3 @@ function Navbars() {
     </Navbar>
   );
 }
-
-export default Navbars;
