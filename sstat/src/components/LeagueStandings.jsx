@@ -5,6 +5,7 @@ const apiKey = process.env.REACT_APP_API_KEY;
 
 const LeagueStandings = ({ league }) => {
   const [standings, setStandings] = useState(null);
+  const [error, setError] = useState(null); // Состояние для хранения ошибки
 
   useEffect(() => {
     if (league) {
@@ -14,8 +15,10 @@ const LeagueStandings = ({ league }) => {
             headers: { 'X-Auth-Token': apiKey },
           });
           setStandings(response.data);
+          setError(null); // Обнуляем ошибку при успешном запросе
         } catch (error) {
           console.error("Ошибка при загрузке данных:", error);
+          setError("Ошибка при загрузке данных"); // Устанавливаем ошибку в состоянии
         }
       };
 
@@ -23,6 +26,7 @@ const LeagueStandings = ({ league }) => {
     }
   }, [league]);
 
+  if (error) return <div>{error}</div>; // Отображаем ошибку, если она есть
   if (!standings) return <div>Загрузка...</div>;
 
   return (
