@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const apiKey = process.env.REACT_APP_API_KEY;
 
-const LeagueStandings = ({ league }) => {
+export const LeagueStandings = ({ league }) => {
   const [standings, setStandings] = useState(null);
   const [error, setError] = useState(null); // Состояние для хранения ошибки
 
@@ -45,5 +45,3 @@ const LeagueStandings = ({ league }) => {
     </div>
   );
 };
-
-export default LeagueStandings;

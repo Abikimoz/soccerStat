@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Leagues = ({ leagues, currentPage, itemsPerPage, onLeagueSelect }) => {
+export const Leagues = ({ leagues, currentPage, itemsPerPage, onLeagueSelect }) => {
   const indexOfLastLeague = currentPage * itemsPerPage;
   const indexOfFirstLeague = indexOfLastLeague - itemsPerPage;
   const currentLeagues = leagues.slice(indexOfFirstLeague, indexOfLastLeague);
@@ -24,5 +24,3 @@ const Leagues = ({ leagues, currentPage, itemsPerPage, onLeagueSelect }) => {
     </div>
   );
 };
-
-export default Leagues;

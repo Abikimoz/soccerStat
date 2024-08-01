@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Breadcrumbs = ({ currentLeague, onBack }) => {
+export const Breadcrumbs = ({ currentLeague, onBack }) => {
   return (
     <nav aria-label="breadcrumb">
       <ol className="breadcrumb">
@@ -16,5 +16,3 @@ const Breadcrumbs = ({ currentLeague, onBack }) => {
     </nav>
   );
 };
-
-export default Breadcrumbs;

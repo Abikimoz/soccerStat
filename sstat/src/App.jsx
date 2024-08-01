@@ -1,9 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from 'react'; 
 import { Navbars }  from './components/Navbars';
-import LeaguesPage from './pages/LeaguesPage';
-import LeagueStandingsPage from './pages/LeagueStandingsPage';
-import Layout from './components/Layout';
+import { LeaguesPage } from './pages/LeaguesPage';
+import { LeagueStandingsPage } from './pages/LeagueStandingsPage';
+import { Layout } from './components/Layout';
 
 function App() {
   const [selectedLeague, setSelectedLeague] = useState(null);

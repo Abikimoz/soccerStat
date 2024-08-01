@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'; 
 import axios from 'axios';
-import Leagues from '../components/Leagues';
-import SearchBar from '../components/SearchBar';
-import CustomPagination from '../components/Pagination';
-import Breadcrumbs from '../components/Breadcrumbs';
+import { Leagues } from '../components/Leagues';
+import { SearchBar } from '../components/SearchBar';
+import { CustomPagination } from '../components/Pagination';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 
 const apiKey = process.env.REACT_APP_API_KEY;
 
-const LeaguesPage = ({ onLeagueSelect, selectedLeague, onBack }) => {
+export const LeaguesPage = ({ onLeagueSelect, selectedLeague, onBack }) => {
   const [leagues, setLeagues] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
@@ -50,5 +50,3 @@ const LeaguesPage = ({ onLeagueSelect, selectedLeague, onBack }) => {
     </>
   );
 };
-
-export default LeaguesPage;

@@ -1,8 +1,8 @@
 import React from 'react';
-import LeagueStandings from '../components/LeagueStandings';
-import Breadcrumbs from '../components/Breadcrumbs';
+import { LeagueStandings } from '../components/LeagueStandings';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 
-const LeagueStandingsPage = ({ league, onBack }) => {
+export const LeagueStandingsPage = ({ league, onBack }) => {
   return (
     <>
       <Breadcrumbs currentLeague={league} onBack={onBack} />
@@ -10,5 +10,3 @@ const LeagueStandingsPage = ({ league, onBack }) => {
     </>
   );
 };
-
-export default LeagueStandingsPage;

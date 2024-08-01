@@ -2,7 +2,7 @@ import React from 'react';
 import Pagination from 'react-bootstrap/Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const CustomPagination = ({ totalPages, activePage, onPageChange }) => {
+export const CustomPagination = ({ totalPages, activePage, onPageChange }) => {
   const shownPages = 4; // количество страниц, отображаемых в пагинации в обе стороны от текущей страницы
 
   let items = [];
@@ -36,5 +36,3 @@ const CustomPagination = ({ totalPages, activePage, onPageChange }) => {
     </div>
   );
 };
-
-export default CustomPagination;
