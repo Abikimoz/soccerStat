@@ -3,7 +3,7 @@ import { Form, FormControl } from 'react-bootstrap';
 
 export const SearchBar = () => {
   return (
-    <div className="container px-3 mb-4">
+    <div className="container px-0 mb-4">
       <Form className="d-flex mt-3 justify-content-start">
         <div className="input-group" style={{ width: '20%', minWidth: '200px' }}>
           <FormControl
