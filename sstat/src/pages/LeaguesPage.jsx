@@ -13,19 +13,20 @@ export const LeaguesPage = ({ onLeagueSelect, selectedLeague, onBack }) => {
   const itemsPerPage = 9;
 
   useEffect(() => {
-    setLoading(true);
-    fetchLeagues()
-      .then(response => {
+    const loadLeagues = async () => {
+      setLoading(true);
+      try {
+        const response = await fetchLeagues();
         setLeagues(response.data.competitions);
         setError(null);
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Ошибка при загрузке данных: ', error);
         setError('Не удалось загрузить данные о лигах. Попробуйте позже.');
-      })
-      .finally(() => {
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+    loadLeagues();
   }, []);
 
   const totalPages = Math.ceil(leagues.length / itemsPerPage);
@@ -45,20 +46,14 @@ export const LeaguesPage = ({ onLeagueSelect, selectedLeague, onBack }) => {
       <Breadcrumbs currentLeague={selectedLeague} onBack={onBack} />
       <SearchBar />
       {loading ? (
-        <div className="loading-message">
-          Загрузка...
-        </div>
+        <div className="loading-message">Загрузка...</div>
       ) : error ? (
-        <div className="error-message">
-          {error}
-        </div>
+        <div className="error-message">{error}</div>
       ) : (
         <>
           <Leagues 
             leagues={currentLeagues()} 
-            currentPage={currentPage} 
-            itemsPerPage={itemsPerPage} 
-            onLeagueSelect={onLeagueSelect} 
+            onLeagueSelect={onLeagueSelect}  // Передаем функцию для выбора лиги
           />
           <CustomPagination
             totalPages={totalPages}

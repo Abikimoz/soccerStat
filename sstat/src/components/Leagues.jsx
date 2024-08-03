@@ -7,7 +7,7 @@ export const Leagues = ({ leagues, onLeagueSelect }) => {
         <div className="col-md-4 mb-4" key={league.id}>
           <div 
             className="card h-100 cursor-pointer" 
-            onClick={() => onLeagueSelect(league)} 
+            onClick={() => onLeagueSelect(league)} // Обрабатываем выбор лиги
           >
             <div className="card-body d-flex flex-column">
               <h5 className="card-title">{league.name}</h5>
