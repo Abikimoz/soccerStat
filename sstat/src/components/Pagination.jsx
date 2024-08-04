@@ -6,6 +6,7 @@ export const CustomPagination = ({ totalPages, activePage, onPageChange }) => {
   const shownPages = 2;
   let items = [];
 
+  // пока тут, но уберу при рефакторинге
   const startPage = Math.max(1, activePage - shownPages);
   const endPage = Math.min(totalPages, activePage + shownPages);
 
