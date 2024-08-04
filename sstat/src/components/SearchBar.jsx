@@ -1,7 +1,11 @@
 import React from 'react';
 import { Form, FormControl } from 'react-bootstrap';
 
-export const SearchBar = () => {
+export const SearchBar = ({ onSearchChange }) => {
+  const handleInputChange = (event) => {
+    onSearchChange(event.target.value); // Передача значения поиска
+  };
+
   return (
     <div className="container px-0 mb-4">
       <Form className="d-flex mt-3 justify-content-start">
@@ -9,10 +13,11 @@ export const SearchBar = () => {
           <FormControl
             type="search"
             placeholder="Поиск"
-            className="form-control-sm rounded-start" // Закругляем только слева
+            className="form-control-sm rounded-start" 
             aria-label="Search"
+            onChange={handleInputChange} // Обработчик изменения
           />
-          <button className="btn btn-outline-primary rounded-end"> {/* Закругляем только справа */}
+          <button className="btn btn-outline-primary rounded-end">
             <i className="fas fa-search"></i>
           </button>
         </div>

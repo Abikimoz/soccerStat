@@ -10,6 +10,7 @@ export const LeaguesPage = ({ onLeagueSelect, selectedLeague, onBack }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState(''); // Состояние для поиска
   const itemsPerPage = 9;
 
   useEffect(() => {
@@ -29,22 +30,33 @@ export const LeaguesPage = ({ onLeagueSelect, selectedLeague, onBack }) => {
     loadLeagues();
   }, []);
 
-  const totalPages = Math.ceil(leagues.length / itemsPerPage);
+  // Функция для фильтрации лиг по ящику поиска
+  const filteredLeagues = leagues.filter((league) =>
+    league.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredLeagues.length / itemsPerPage);
 
   const currentLeagues = () => {
     const indexOfLastLeague = currentPage * itemsPerPage;
     const indexOfFirstLeague = indexOfLastLeague - itemsPerPage;
-    return leagues.slice(indexOfFirstLeague, indexOfLastLeague);
+    return filteredLeagues.slice(indexOfFirstLeague, indexOfLastLeague);
   };
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
+  // Функция для обновления состояния поиска
+  const handleSearchChange = (term) => {
+    setSearchTerm(term);
+    setCurrentPage(1); // Сброс текущей страницы при новом поиске
+  };
+
   return (
     <>
       <Breadcrumbs currentLeague={selectedLeague} onBack={onBack} />
-      <SearchBar />
+      <SearchBar onSearchChange={handleSearchChange} />
       {loading ? (
         <div className="loading-message">Загрузка...</div>
       ) : error ? (
@@ -53,7 +65,7 @@ export const LeaguesPage = ({ onLeagueSelect, selectedLeague, onBack }) => {
         <>
           <Leagues 
             leagues={currentLeagues()} 
-            onLeagueSelect={onLeagueSelect}  // Передаем функцию для выбора лиги
+            onLeagueSelect={onLeagueSelect}
           />
           <CustomPagination
             totalPages={totalPages}

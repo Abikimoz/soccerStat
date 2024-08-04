@@ -10,8 +10,8 @@ export const Leagues = ({ leagues, onLeagueSelect }) => {
             onClick={() => onLeagueSelect(league)}
           >
             <div className="card-body d-flex flex-column">
-              <h5 className="card-title">{league.name}</h5>
-              <p className="card-text">{league.country}</p>
+              <h5 className="card-title text-center">{league.name}</h5>
+              <p className="card-text text-center mt-2">{league.area.name}</p>
               <p className="card-text flex-grow-1">{league.description}</p>
             </div>
           </div>

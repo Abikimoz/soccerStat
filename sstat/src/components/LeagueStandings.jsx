@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const LeagueStandings = ({ standings }) => {
-  if (!standings) return null; // Если данных нет, ничего не рендерим
+  if (!standings) return null;
   
   return (
     <div>
