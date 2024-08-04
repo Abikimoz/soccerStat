@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { LeagueStandings } from '../components/LeagueStandings';
 import { Breadcrumbs } from '../components/Breadcrumbs';
-import { fetchStandings } from '../services/api'; // Импорт функции для получения данных
+import { fetchStandings } from '../services/api'; 
+import { CustomPagination } from '../components/Pagination';
 
 export const LeagueStandingsPage = ({ league, onBack }) => {
   const [standings, setStandings] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  const itemsPerPage = 7;
 
   useEffect(() => {
     const loadStandings = async () => {
-      if (!league) return; // Проверка на наличие лиги
+      if (!league) return;
       setLoading(true);
       try {
         const response = await fetchStandings(league.id);
@@ -27,6 +31,10 @@ export const LeagueStandingsPage = ({ league, onBack }) => {
     loadStandings();
   }, [league]);
 
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <>
       <Breadcrumbs currentLeague={league} onBack={onBack} />
@@ -35,7 +43,16 @@ export const LeagueStandingsPage = ({ league, onBack }) => {
       ) : error ? (
         <div>{error}</div>
       ) : (
-        <LeagueStandings standings={standings} />
+        <>
+          <LeagueStandings standings={standings} currentPage={currentPage} itemsPerPage={itemsPerPage} />
+          {standings && standings.matches && (
+            <CustomPagination
+              totalPages={Math.ceil(standings.matches.length / itemsPerPage)}
+              activePage={currentPage}
+              onPageChange={paginate}
+            />
+          )}
+        </>
       )}
     </>
   );
