@@ -3,7 +3,7 @@ import { Form, FormControl } from 'react-bootstrap';
 
 export const SearchBar = ({ onSearchChange }) => {
   const handleInputChange = (event) => {
-    onSearchChange(event.target.value); // Передача значения поиска
+    onSearchChange(event.target.value);
   };
 
   return (
@@ -15,7 +15,7 @@ export const SearchBar = ({ onSearchChange }) => {
             placeholder="Поиск"
             className="form-control-sm rounded-start" 
             aria-label="Search"
-            onChange={handleInputChange} // Обработчик изменения
+            onChange={handleInputChange}
           />
           <button className="btn btn-outline-primary rounded-end">
             <i className="fas fa-search"></i>

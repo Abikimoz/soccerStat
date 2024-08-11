@@ -1,6 +1,6 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react'; 
-import { Navbars }  from './components/Navbars';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Navbars } from './components/Navbars';
 import { LeaguesPage } from './pages/LeaguesPage';
 import { LeagueStandingsPage } from './pages/LeagueStandingsPage';
 import { Layout } from './components/Layout';
@@ -17,27 +17,34 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header id="navbar">
-        <Navbars />
-      </header>
-      <main className="container">
-        <Layout>
-          {!selectedLeague ? (
-            <LeaguesPage 
-              onLeagueSelect={handleLeagueSelect} 
-              selectedLeague={selectedLeague} 
-              onBack={handleBack} 
-            />
-          ) : (
-            <LeagueStandingsPage 
-              league={selectedLeague} 
-              onBack={handleBack} 
-            />
-          )}
-        </Layout>
-      </main>
-    </div>
+    <Router>
+      <div className="App">
+        <header id="navbar">
+          <Navbars />
+        </header>
+        <main className="container">
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Navigate to="/league" replace />} />
+              <Route 
+                path="/league" 
+                element={
+                  <LeaguesPage 
+                    onLeagueSelect={handleLeagueSelect} 
+                    selectedLeague={selectedLeague} 
+                    onBack={handleBack} 
+                  />
+                } 
+              />
+              <Route 
+                path="/league/:id" 
+                element={<LeagueStandingsPage onBack={handleBack} />}
+              />
+            </Routes>
+          </Layout>
+        </main>
+      </div>
+    </Router>
   );
 }
 

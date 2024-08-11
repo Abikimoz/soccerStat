@@ -1,23 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; 
+import { useParams } from 'react-router-dom';
 import { LeagueStandings } from '../components/LeagueStandings';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { fetchStandings } from '../services/api'; 
 import { CustomPagination } from '../components/Pagination';
 
-export const LeagueStandingsPage = ({ league, onBack }) => {
+export const LeagueStandingsPage = ({ onBack }) => {
+  const { id: leagueId } = useParams();
   const [standings, setStandings] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  
   const itemsPerPage = 7;
 
   useEffect(() => {
     const loadStandings = async () => {
-      if (!league) return;
+      console.log('Загрузка данных для лиги с ID:', leagueId);
+      if (!leagueId) return; 
+
       setLoading(true);
       try {
-        const response = await fetchStandings(league.id);
+        const response = await fetchStandings(leagueId);
+        console.log('Данные лиги:', response.data);
         setStandings(response.data);
         setError(null);
       } catch (err) {
@@ -29,15 +33,18 @@ export const LeagueStandingsPage = ({ league, onBack }) => {
     };
 
     loadStandings();
-  }, [league]);
+  }, [leagueId]);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
+  const leagueName = standings?.competition?.name;
+  console.log("Сюда я пишу название лиги!:", leagueName);
+
   return (
     <>
-      <Breadcrumbs currentLeague={league} onBack={onBack} />
+      <Breadcrumbs currentLeague={leagueName} onBack={onBack} />
       {loading ? (
         <div>Загрузка...</div>
       ) : error ? (
@@ -45,7 +52,7 @@ export const LeagueStandingsPage = ({ league, onBack }) => {
       ) : (
         <>
           <LeagueStandings standings={standings} currentPage={currentPage} itemsPerPage={itemsPerPage} />
-          {standings && standings.matches && (
+          {standings?.matches && (
             <CustomPagination
               totalPages={Math.ceil(standings.matches.length / itemsPerPage)}
               activePage={currentPage}

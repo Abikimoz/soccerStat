@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react'; 
+import { useNavigate } from 'react-router-dom';
 import { Leagues } from '../components/Leagues';
 import { SearchBar } from '../components/SearchBar';
 import { CustomPagination } from '../components/Pagination';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { fetchLeagues } from '../services/api';
 
-export const LeaguesPage = ({ onLeagueSelect, selectedLeague, onBack }) => {
+export const LeaguesPage = ({ onBack }) => {
+  const navigate = useNavigate();
   const [leagues, setLeagues] = useState([]);
+  const [selectedLeague, setSelectedLeague] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState(''); // Состояние для поиска
+  const [searchTerm, setSearchTerm] = useState('');
   const itemsPerPage = 9;
 
   useEffect(() => {
@@ -30,7 +33,6 @@ export const LeaguesPage = ({ onLeagueSelect, selectedLeague, onBack }) => {
     loadLeagues();
   }, []);
 
-  // Функция для фильтрации лиг по ящику поиска
   const filteredLeagues = leagues.filter((league) =>
     league.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -47,10 +49,15 @@ export const LeaguesPage = ({ onLeagueSelect, selectedLeague, onBack }) => {
     setCurrentPage(pageNumber);
   };
 
-  // Функция для обновления состояния поиска
   const handleSearchChange = (term) => {
     setSearchTerm(term);
-    setCurrentPage(1); // Сброс текущей страницы при новом поиске
+    setCurrentPage(1);
+  };
+
+  const handleLeagueSelect = (league) => {
+    console.log("Выбрана лига: ", league);
+    setSelectedLeague(league);
+    navigate(`/league/${league.id}`);
   };
 
   return (
@@ -65,7 +72,7 @@ export const LeaguesPage = ({ onLeagueSelect, selectedLeague, onBack }) => {
         <>
           <Leagues 
             leagues={currentLeagues()} 
-            onLeagueSelect={onLeagueSelect}
+            onLeagueSelect={handleLeagueSelect} 
           />
           <CustomPagination
             totalPages={totalPages}
