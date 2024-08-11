@@ -9,8 +9,8 @@ export const Leagues = ({ leagues, onLeagueSelect }) => {
     <div className="row">
       {leagues.map((league) => (
         <div className="col-md-4 mb-4" key={league.id}>
-          <div 
-            className="card h-100 text-decoration-none" 
+          <div
+            className="card h-100 text-decoration-none"
             onClick={() => onLeagueSelect(league)}
             style={{ cursor: 'pointer' }}
           >

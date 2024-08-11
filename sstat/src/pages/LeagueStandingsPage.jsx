@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'; 
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { LeagueStandings } from '../components/LeagueStandings';
 import { Breadcrumbs } from '../components/Breadcrumbs';
-import { fetchStandings } from '../services/api'; 
+import { fetchStandings } from '../services/api';
 import { CustomPagination } from '../components/Pagination';
 
 export const LeagueStandingsPage = ({ onBack }) => {
@@ -16,7 +16,7 @@ export const LeagueStandingsPage = ({ onBack }) => {
   useEffect(() => {
     const loadStandings = async () => {
       console.log('Загрузка данных для лиги с ID:', leagueId);
-      if (!leagueId) return; 
+      if (!leagueId) return;
 
       setLoading(true);
       try {
@@ -25,8 +25,8 @@ export const LeagueStandingsPage = ({ onBack }) => {
         setStandings(response.data);
         setError(null);
       } catch (err) {
-        console.error("Ошибка при загрузке данных:", err);
-        setError("Ошибка при загрузке данных");
+        console.error('Ошибка при загрузке данных:', err);
+        setError('Ошибка при загрузке данных');
       } finally {
         setLoading(false);
       }
@@ -40,7 +40,7 @@ export const LeagueStandingsPage = ({ onBack }) => {
   };
 
   const leagueName = standings?.competition?.name;
-  console.log("Сюда я пишу название лиги!:", leagueName);
+  console.log('Сюда я пишу название лиги!:', leagueName);
 
   return (
     <>
@@ -51,7 +51,11 @@ export const LeagueStandingsPage = ({ onBack }) => {
         <div>{error}</div>
       ) : (
         <>
-          <LeagueStandings standings={standings} currentPage={currentPage} itemsPerPage={itemsPerPage} />
+          <LeagueStandings
+            standings={standings}
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+          />
           {standings?.matches && (
             <CustomPagination
               totalPages={Math.ceil(standings.matches.length / itemsPerPage)}

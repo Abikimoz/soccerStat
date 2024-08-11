@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Leagues } from '../components/Leagues';
 import { SearchBar } from '../components/SearchBar';
@@ -55,7 +55,7 @@ export const LeaguesPage = ({ onBack }) => {
   };
 
   const handleLeagueSelect = (league) => {
-    console.log("Выбрана лига: ", league);
+    console.log('Выбрана лига: ', league);
     setSelectedLeague(league);
     navigate(`/league/${league.id}`);
   };
@@ -70,9 +70,9 @@ export const LeaguesPage = ({ onBack }) => {
         <div className="error-message">{error}</div>
       ) : (
         <>
-          <Leagues 
-            leagues={currentLeagues()} 
-            onLeagueSelect={handleLeagueSelect} 
+          <Leagues
+            leagues={currentLeagues()}
+            onLeagueSelect={handleLeagueSelect}
           />
           <CustomPagination
             totalPages={totalPages}

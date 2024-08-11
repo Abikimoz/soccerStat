@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import { Navbars } from './components/Navbars';
 import { LeaguesPage } from './pages/LeaguesPage';
 import { LeagueStandingsPage } from './pages/LeagueStandingsPage';
@@ -26,18 +31,18 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Navigate to="/league" replace />} />
-              <Route 
-                path="/league" 
+              <Route
+                path="/league"
                 element={
-                  <LeaguesPage 
-                    onLeagueSelect={handleLeagueSelect} 
-                    selectedLeague={selectedLeague} 
-                    onBack={handleBack} 
+                  <LeaguesPage
+                    onLeagueSelect={handleLeagueSelect}
+                    selectedLeague={selectedLeague}
+                    onBack={handleBack}
                   />
-                } 
+                }
               />
-              <Route 
-                path="/league/:id" 
+              <Route
+                path="/league/:id"
                 element={<LeagueStandingsPage onBack={handleBack} />}
               />
             </Routes>

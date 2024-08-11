@@ -7,7 +7,7 @@ export const calculatePagination = (totalPages, activePage, shownPages = 2) => {
     items.push(1);
 
     if (startPage > 2) {
-      items.push("start-ellipsis");
+      items.push('start-ellipsis');
     }
   }
 
@@ -17,7 +17,7 @@ export const calculatePagination = (totalPages, activePage, shownPages = 2) => {
 
   if (endPage < totalPages) {
     if (endPage < totalPages - 1) {
-      items.push("end-ellipsis");
+      items.push('end-ellipsis');
     }
 
     items.push(totalPages);

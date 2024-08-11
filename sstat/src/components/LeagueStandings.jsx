@@ -5,7 +5,10 @@ export const LeagueStandings = ({ standings, currentPage, itemsPerPage }) => {
 
   const indexOfLastMatch = currentPage * itemsPerPage;
   const indexOfFirstMatch = indexOfLastMatch - itemsPerPage;
-  const currentMatches = standings.matches.slice(indexOfFirstMatch, indexOfLastMatch);
+  const currentMatches = standings.matches.slice(
+    indexOfFirstMatch,
+    indexOfLastMatch
+  );
 
   return (
     <div>
@@ -15,10 +18,17 @@ export const LeagueStandings = ({ standings, currentPage, itemsPerPage }) => {
           {currentMatches.map((match) => (
             <tr key={match.id}>
               <td>
-                {match.utcDate ? new Date(match.utcDate).toLocaleDateString('ru-RU') : '-'}
+                {match.utcDate
+                  ? new Date(match.utcDate).toLocaleDateString('ru-RU')
+                  : '-'}
               </td>
               <td>
-                {match.utcDate ? new Date(match.utcDate).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : '-'}
+                {match.utcDate
+                  ? new Date(match.utcDate).toLocaleTimeString('ru-RU', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })
+                  : '-'}
               </td>
               <td>
                 {match.status === 'SCHEDULED' && 'Запланирован'}
@@ -33,9 +43,9 @@ export const LeagueStandings = ({ standings, currentPage, itemsPerPage }) => {
               <td>{match.homeTeam ? match.homeTeam.name : '-'}</td>
               <td>{match.awayTeam ? match.awayTeam.name : '-'}</td>
               <td>
-                {match.score && match.score.fullTime ? 
-                  `${match.score.fullTime.homeTeam || 0} : ${match.score.fullTime.awayTeam || 0}` : 
-                  '-'}
+                {match.score && match.score.fullTime
+                  ? `${match.score.fullTime.homeTeam || 0} : ${match.score.fullTime.awayTeam || 0}`
+                  : '-'}
               </td>
             </tr>
           ))}

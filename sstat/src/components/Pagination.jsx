@@ -19,9 +19,14 @@ export const CustomPagination = ({ totalPages, activePage, onPageChange }) => {
 
     if (startPage > 2) {
       items.push(
-        <Pagination.Ellipsis 
-          key="start-ellipsis" 
-          style={{ pointerEvents: 'none', border: 'none', background: 'none', color: 'inherit' }} 
+        <Pagination.Ellipsis
+          key="start-ellipsis"
+          style={{
+            pointerEvents: 'none',
+            border: 'none',
+            background: 'none',
+            color: 'inherit',
+          }}
         />
       );
     }
@@ -29,9 +34,9 @@ export const CustomPagination = ({ totalPages, activePage, onPageChange }) => {
 
   for (let number = startPage; number <= endPage; number++) {
     items.push(
-      <Pagination.Item 
-        key={number} 
-        active={number === activePage} 
+      <Pagination.Item
+        key={number}
+        active={number === activePage}
         onClick={() => onPageChange(number)}
       >
         {number}
@@ -42,15 +47,23 @@ export const CustomPagination = ({ totalPages, activePage, onPageChange }) => {
   if (endPage < totalPages) {
     if (endPage < totalPages - 1) {
       items.push(
-        <Pagination.Ellipsis 
-          key="end-ellipsis" 
-          style={{ pointerEvents: 'none', border: 'none', background: 'none', color: 'inherit' }} 
+        <Pagination.Ellipsis
+          key="end-ellipsis"
+          style={{
+            pointerEvents: 'none',
+            border: 'none',
+            background: 'none',
+            color: 'inherit',
+          }}
         />
       );
     }
 
     items.push(
-      <Pagination.Item key={totalPages} onClick={() => onPageChange(totalPages)}>
+      <Pagination.Item
+        key={totalPages}
+        onClick={() => onPageChange(totalPages)}
+      >
         {totalPages}
       </Pagination.Item>
     );
@@ -58,13 +71,19 @@ export const CustomPagination = ({ totalPages, activePage, onPageChange }) => {
 
   if (activePage > 1) {
     items.unshift(
-      <Pagination.Prev key="prev" onClick={() => onPageChange(activePage - 1)} />
+      <Pagination.Prev
+        key="prev"
+        onClick={() => onPageChange(activePage - 1)}
+      />
     );
   }
 
   if (activePage < totalPages) {
     items.push(
-      <Pagination.Next key="next" onClick={() => onPageChange(activePage + 1)} />
+      <Pagination.Next
+        key="next"
+        onClick={() => onPageChange(activePage + 1)}
+      />
     );
   }
 

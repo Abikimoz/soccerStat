@@ -9,11 +9,14 @@ export const SearchBar = ({ onSearchChange }) => {
   return (
     <div className="container px-0 mb-4">
       <Form className="d-flex mt-3 justify-content-start">
-        <div className="input-group" style={{ width: '20%', minWidth: '200px' }}>
+        <div
+          className="input-group"
+          style={{ width: '20%', minWidth: '200px' }}
+        >
           <FormControl
             type="search"
             placeholder="Поиск"
-            className="form-control-sm rounded-start" 
+            className="form-control-sm rounded-start"
             aria-label="Search"
             onChange={handleInputChange}
           />
@@ -24,4 +27,4 @@ export const SearchBar = ({ onSearchChange }) => {
       </Form>
     </div>
   );
-}
+};
