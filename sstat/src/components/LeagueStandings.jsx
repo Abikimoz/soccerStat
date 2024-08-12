@@ -1,4 +1,5 @@
 import React from 'react';
+import matchStatuses from '../services/matchStatuses.json';
 
 export const LeagueStandings = ({ standings, currentPage, itemsPerPage }) => {
   if (!standings || !standings.matches) return null;
@@ -31,14 +32,7 @@ export const LeagueStandings = ({ standings, currentPage, itemsPerPage }) => {
                   : '-'}
               </td>
               <td>
-                {match.status === 'SCHEDULED' && 'Запланирован'}
-                {match.status === 'LIVE' && 'В прямом эфире'}
-                {match.status === 'IN_PLAY' && 'В игре'}
-                {match.status === 'PAUSED' && 'Пауза'}
-                {match.status === 'FINISHED' && 'Завершен'}
-                {match.status === 'POSTPONED' && 'Отложен'}
-                {match.status === 'SUSPENDED' && 'Приостановлен'}
-                {match.status === 'CANCELED' && 'Отменен'}
+                {matchStatuses[match.status] || match.status}
               </td>
               <td>{match.homeTeam ? match.homeTeam.name : '-'}</td>
               <td>{match.awayTeam ? match.awayTeam.name : '-'}</td>
