@@ -4,6 +4,7 @@ import { LeagueStandings } from '../components/LeagueStandings';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { fetchStandings } from '../services/api';
 import { CustomPagination } from '../components/Pagination';
+import { Loader } from '../components/Loader';
 
 export const LeagueStandingsPage = ({ onBack }) => {
   const { id: leagueId } = useParams();
@@ -46,7 +47,7 @@ export const LeagueStandingsPage = ({ onBack }) => {
     <>
       <Breadcrumbs currentLeague={leagueName} onBack={onBack} />
       {loading ? (
-        <div>Загрузка...</div>
+        <Loader />
       ) : error ? (
         <div>{error}</div>
       ) : (
