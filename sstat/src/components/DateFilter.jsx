@@ -6,10 +6,26 @@ export const DateFilter = ({ onFilter }) => {
   const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
+    // Запускать фильтрацию только если обе даты заданы
     if (startDate && endDate) {
       onFilter({ startDate, endDate });
     }
+    // Добавьте начальную и конечную дату в зависимости, чтобы избежать бесконечного цикла
   }, [startDate, endDate, onFilter]);
+
+  const handleStartDateChange = (e) => {
+    const newStartDate = e.target.value;
+    if (!endDate || new Date(newStartDate) <= new Date(endDate)) {
+      setStartDate(newStartDate);
+    }
+  };
+
+  const handleEndDateChange = (e) => {
+    const newEndDate = e.target.value;
+    if (!startDate || new Date(newEndDate) >= new Date(startDate)) {
+      setEndDate(newEndDate);
+    }
+  };
 
   return (
     <div className="mb-3">
@@ -22,7 +38,7 @@ export const DateFilter = ({ onFilter }) => {
             id="startDate"
             className="form-control ms-2"
             value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
+            onChange={handleStartDateChange}
           />
         </div>
         <div className="d-flex align-items-center">
@@ -32,7 +48,7 @@ export const DateFilter = ({ onFilter }) => {
             id="endDate"
             className="form-control ms-2"
             value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
+            onChange={handleEndDateChange}
           />
         </div>
       </div>

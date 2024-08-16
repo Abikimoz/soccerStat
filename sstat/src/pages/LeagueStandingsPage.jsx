@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { LeagueStandings } from '../components/LeagueStandings';
 import { Breadcrumbs } from '../components/Breadcrumbs';
@@ -10,7 +10,7 @@ import { DateFilter } from '../components/DateFilter';
 export const LeagueStandingsPage = ({ onBack }) => {
   const { id: leagueId } = useParams();
   const [standings, setStandings] = useState(null);
-  const [filteredMatches, setFilteredMatches] = useState([]); // Доступные матчи после фильтрации
+  const [filteredMatches, setFilteredMatches] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,7 +26,7 @@ export const LeagueStandingsPage = ({ onBack }) => {
         const response = await fetchStandings(leagueId);
         console.log('Данные лиги:', response.data);
         setStandings(response.data);
-        setFilteredMatches(response.data.matches || []); // Сохраняем все матчи для фильтрации
+        setFilteredMatches(response.data.matches || []);
         setError(null);
       } catch (err) {
         console.error('Ошибка при загрузке данных:', err);
@@ -39,18 +39,18 @@ export const LeagueStandingsPage = ({ onBack }) => {
     loadStandings();
   }, [leagueId]);
 
-  const handleFilter = ({ startDate, endDate }) => {
+  const handleFilter = useCallback(({ startDate, endDate }) => {
     if (standings && standings.matches) {
       const filtered = standings.matches.filter(match => {
-        const matchDate = new Date(match.date); // Предполагается, что match.date - строка
+        const matchDate = new Date(match.date);
         const isAfterStartDate = startDate ? matchDate >= new Date(startDate) : true;
         const isBeforeEndDate = endDate ? matchDate <= new Date(endDate) : true;
         return isAfterStartDate && isBeforeEndDate;
       });
       setFilteredMatches(filtered);
-      setCurrentPage(1); // Сброс текущей страницы после фильтрации
+      setCurrentPage(1);
     }
-  };
+  }, [standings]);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -68,12 +68,12 @@ export const LeagueStandingsPage = ({ onBack }) => {
         <div>{error}</div>
       ) : (
         <>
-          <DateFilter onFilter={handleFilter} /> {/* Добавим фильтр */}
+          <DateFilter onFilter={handleFilter} />
           <LeagueStandings
             standings={standings}
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
-            filteredMatches={filteredMatches} // Передаем отфильтрованные матчи
+            filteredMatches={filteredMatches}
           />
           {filteredMatches.length > 0 && (
             <CustomPagination
