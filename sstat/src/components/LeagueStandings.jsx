@@ -1,12 +1,16 @@
 import React from 'react';
 import matchStatuses from '../services/matchStatuses.json';
 
-export const LeagueStandings = ({ standings, currentPage, itemsPerPage }) => {
+export const LeagueStandings = ({ standings, currentPage, itemsPerPage, filteredMatches }) => {
   if (!standings || !standings.matches) return null;
+
+  const displayedMatches = filteredMatches.length > 0 
+    ? filteredMatches 
+    : standings.matches; // Если фильтров нет, показываем все матчи
 
   const indexOfLastMatch = currentPage * itemsPerPage;
   const indexOfFirstMatch = indexOfLastMatch - itemsPerPage;
-  const currentMatches = standings.matches.slice(
+  const currentMatches = displayedMatches.slice(
     indexOfFirstMatch,
     indexOfLastMatch
   );
@@ -45,6 +49,7 @@ export const LeagueStandings = ({ standings, currentPage, itemsPerPage }) => {
           ))}
         </tbody>
       </table>
+      {displayedMatches.length === 0 && <p>Нет доступных матчей для отображения.</p>} {/* Сообщение при отсутствии матчей */}
     </div>
   );
 };
