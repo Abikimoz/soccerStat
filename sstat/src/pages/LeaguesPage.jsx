@@ -56,7 +56,6 @@ export const LeaguesPage = ({ onBack }) => {
   };
 
   const handleLeagueSelect = (league) => {
-    console.log('Выбрана лига: ', league);
     setSelectedLeague(league);
     navigate(`/league/${league.id}`);
   };

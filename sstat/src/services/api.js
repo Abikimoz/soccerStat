@@ -10,10 +10,17 @@ export const fetchLeagues = () => {
   });
 };
 
-export const fetchStandings = (leagueId) => {
+export const fetchStandings = (leagueId, dateFrom, dateTo) => {
+  // Создаем строку параметров запроса для фильтрации по дате
+  const params = {
+    dateFrom,
+    dateTo,
+  };
+
   return axios.get(`/api/v4/competitions/${leagueId}/matches`, {
     headers: {
       'X-Auth-Token': apiKey,
     },
+    params, // передаем параметры в запрос
   });
 };

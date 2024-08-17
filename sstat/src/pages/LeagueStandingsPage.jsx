@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { LeagueStandings } from '../components/LeagueStandings';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { fetchStandings } from '../services/api';
 import { CustomPagination } from '../components/Pagination';
 import { Loader } from '../components/Loader';
+import { DateFilter } from '../components/DateFilter';
 
 export const LeagueStandingsPage = ({ onBack }) => {
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const { id: leagueId } = useParams();
   const [standings, setStandings] = useState(null);
+  const [filteredMatches, setFilteredMatches] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,17 +20,15 @@ export const LeagueStandingsPage = ({ onBack }) => {
 
   useEffect(() => {
     const loadStandings = async () => {
-      console.log('Загрузка данных для лиги с ID:', leagueId);
       if (!leagueId) return;
 
       setLoading(true);
       try {
         const response = await fetchStandings(leagueId);
-        console.log('Данные лиги:', response.data);
         setStandings(response.data);
+        setFilteredMatches(response.data.matches || []);
         setError(null);
       } catch (err) {
-        console.error('Ошибка при загрузке данных:', err);
         setError('Ошибка при загрузке данных');
       } finally {
         setLoading(false);
@@ -36,12 +38,35 @@ export const LeagueStandingsPage = ({ onBack }) => {
     loadStandings();
   }, [leagueId]);
 
+  const handleFilter = useCallback(async ({ startDate, endDate }) => {
+    if (!startDate && !endDate) {
+      // Если даты не заданы, сбросить фильтр
+      setFilteredMatches(standings?.matches || []);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+  
+    try {
+      const response = await fetchStandings(leagueId, startDate, endDate);
+      const matches = response.data.matches || [];
+      setFilteredMatches(matches.length > 0 ? matches : standings?.matches || []);
+    } catch (err) {
+      console.error('Ошибка при фильтрации:', err);
+      setError('Ошибка при загрузке отфильтрованных данных');
+    } finally {
+      setCurrentPage(1); // Сбрасываем текущую страницу при изменении фильтра
+      setLoading(false);
+    }
+  }, [leagueId, standings]);
+  
+
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   const leagueName = standings?.competition?.name;
-  console.log('Сюда я пишу название лиги!:', leagueName);
 
   return (
     <>
@@ -52,20 +77,32 @@ export const LeagueStandingsPage = ({ onBack }) => {
         <div>{error}</div>
       ) : (
         <>
-          <LeagueStandings
-            standings={standings}
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-          />
-          {standings?.matches && (
-            <CustomPagination
-              totalPages={Math.ceil(standings.matches.length / itemsPerPage)}
-              activePage={currentPage}
-              onPageChange={paginate}
+          <DateFilter 
+            startDate={startDate}
+            endDate={endDate}
+            onFilter={handleFilter}
+            onStartDateChange={setStartDate}
+            onEndDateChange={setEndDate}
             />
+          {filteredMatches.length === 0 ? (
+            <div>Нет матчей за выбранный период</div>
+          ) : (
+            <>
+              <LeagueStandings
+                standings={standings}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                filteredMatches={filteredMatches}
+              />
+              <CustomPagination
+                totalPages={Math.ceil(filteredMatches.length / itemsPerPage)}
+                activePage={currentPage}
+                onPageChange={paginate}
+              />
+            </>
           )}
         </>
       )}
     </>
-  );
+  );  
 };
