@@ -8,6 +8,8 @@ import { Loader } from '../components/Loader';
 import { DateFilter } from '../components/DateFilter';
 
 export const LeagueStandingsPage = ({ onBack }) => {
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const { id: leagueId } = useParams();
   const [standings, setStandings] = useState(null);
   const [filteredMatches, setFilteredMatches] = useState([]);
@@ -36,31 +38,29 @@ export const LeagueStandingsPage = ({ onBack }) => {
     loadStandings();
   }, [leagueId]);
 
-  const handleFilter = useCallback(({ startDate, endDate }) => {
-    if (standings && standings.matches) {
-        if (startDate && endDate) {
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-
-            if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-                // Обработка ошибок с некорректными датами
-                console.error('Некорректные даты');
-                return;
-            }
-
-            const filtered = standings.matches.filter(match => {
-                const matchDate = new Date(match.utcDate);
-                // Является ли дата матча в диапазоне
-                return matchDate >= start && matchDate <= end;
-            });
-            setFilteredMatches(filtered);
-        } else {
-            // Если даты не заданы, показываем все матчи
-            setFilteredMatches(standings.matches);
-        }
-        setCurrentPage(1); // Сбрасываем текущую страницу при изменении фильтра
+  const handleFilter = useCallback(async ({ startDate, endDate }) => {
+    if (!startDate && !endDate) {
+      // Если даты не заданы, сбросить фильтр
+      setFilteredMatches(standings?.matches || []);
+      return;
     }
-}, [standings]);
+
+    setLoading(true);
+    setError(null);
+  
+    try {
+      const response = await fetchStandings(leagueId, startDate, endDate);
+      const matches = response.data.matches || [];
+      setFilteredMatches(matches.length > 0 ? matches : standings?.matches || []);
+    } catch (err) {
+      console.error('Ошибка при фильтрации:', err);
+      setError('Ошибка при загрузке отфильтрованных данных');
+    } finally {
+      setCurrentPage(1); // Сбрасываем текущую страницу при изменении фильтра
+      setLoading(false);
+    }
+  }, [leagueId, standings]);
+  
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -77,8 +77,14 @@ export const LeagueStandingsPage = ({ onBack }) => {
         <div>{error}</div>
       ) : (
         <>
-          <DateFilter onFilter={handleFilter} />
-          {filteredMatches.length === 0 ? ( // Проверка на наличие отфильтрованных матчей
+          <DateFilter 
+            startDate={startDate}
+            endDate={endDate}
+            onFilter={handleFilter}
+            onStartDateChange={setStartDate}
+            onEndDateChange={setEndDate}
+            />
+          {filteredMatches.length === 0 ? (
             <div>Нет матчей за выбранный период</div>
           ) : (
             <>

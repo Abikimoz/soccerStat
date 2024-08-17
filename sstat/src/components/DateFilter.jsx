@@ -1,26 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export const DateFilter = ({ onFilter }) => {
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-
-  useEffect(() => {
-    // Запуск фильтрации только если обе даты заданы
-    if (startDate && endDate) {
-      onFilter({ startDate, endDate });
-    } else {
-      // Если хотя бы одна дата не задана, очищаем фильтр
-      onFilter({ startDate: '', endDate: '' });
-    }
-  }, [startDate, endDate, onFilter]);
-
+export const DateFilter = ({ startDate, endDate, onFilter, onStartDateChange, onEndDateChange }) => {
+  
   const handleStartDateChange = (e) => {
-    setStartDate(e.target.value);
+    const newStartDate = e.target.value;
+    onStartDateChange(newStartDate);
+    
+    // Запуск фильтрации только если обе даты заданы
+    if (newStartDate && endDate) {
+      onFilter({ startDate: newStartDate, endDate });
+    } else {
+      onFilter({ startDate: '', endDate: '' }); // Сбрасываем фильтр, если одна из дат не задана
+    }
   };
 
   const handleEndDateChange = (e) => {
-    setEndDate(e.target.value);
+    const newEndDate = e.target.value;
+    onEndDateChange(newEndDate);
+    
+    // Запуск фильтрации только если обе даты заданы
+    if (startDate && newEndDate) {
+      onFilter({ startDate, endDate: newEndDate });
+    } else {
+      onFilter({ startDate: '', endDate: '' }); // Сбрасываем фильтр, если одна из дат не задана
+    }
   };
 
   return (

@@ -10,22 +10,17 @@ export const fetchLeagues = () => {
   });
 };
 
-export const fetchStandings = (leagueId) => {
-  return axios.get(`/api/v4/competitions/${leagueId}/matches`, {
-    headers: {
-      'X-Auth-Token': apiKey,
-    },
-  });
-};
+export const fetchStandings = (leagueId, dateFrom, dateTo) => {
+  // Создаем строку параметров запроса для фильтрации по дате
+  const params = {
+    dateFrom,
+    dateTo,
+  };
 
-export const fetchMatchesByDate = (leagueId, startDate, endDate) => {
   return axios.get(`/api/v4/competitions/${leagueId}/matches`, {
     headers: {
       'X-Auth-Token': apiKey,
     },
-    params: {
-      dateFrom: startDate,
-      dateTo: endDate,
-    },
+    params, // передаем параметры в запрос
   });
 };
