@@ -6,25 +6,21 @@ export const DateFilter = ({ onFilter }) => {
   const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
-    // Запускать фильтрацию только если обе даты заданы
+    // Запуск фильтрации только если обе даты заданы
     if (startDate && endDate) {
       onFilter({ startDate, endDate });
+    } else {
+      // Если хотя бы одна дата не задана, очищаем фильтр
+      onFilter({ startDate: '', endDate: '' });
     }
-    // Добавьте начальную и конечную дату в зависимости, чтобы избежать бесконечного цикла
   }, [startDate, endDate, onFilter]);
 
   const handleStartDateChange = (e) => {
-    const newStartDate = e.target.value;
-    if (!endDate || new Date(newStartDate) <= new Date(endDate)) {
-      setStartDate(newStartDate);
-    }
+    setStartDate(e.target.value);
   };
 
   const handleEndDateChange = (e) => {
-    const newEndDate = e.target.value;
-    if (!startDate || new Date(newEndDate) >= new Date(startDate)) {
-      setEndDate(newEndDate);
-    }
+    setEndDate(e.target.value);
   };
 
   return (

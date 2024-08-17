@@ -17,7 +17,6 @@ export const LeagueStandings = ({ standings, currentPage, itemsPerPage, filtered
 
   return (
     <div>
-      <h2>Матчи</h2>
       <table className="table">
         <tbody>
           {currentMatches.map((match) => (

@@ -17,3 +17,15 @@ export const fetchStandings = (leagueId) => {
     },
   });
 };
+
+export const fetchMatchesByDate = (leagueId, startDate, endDate) => {
+  return axios.get(`/api/v4/competitions/${leagueId}/matches`, {
+    headers: {
+      'X-Auth-Token': apiKey,
+    },
+    params: {
+      dateFrom: startDate,
+      dateTo: endDate,
+    },
+  });
+};

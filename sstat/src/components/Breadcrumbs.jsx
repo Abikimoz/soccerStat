@@ -8,8 +8,6 @@ export const Breadcrumbs = ({ currentLeague }) => {
     navigate('/league');
   };
 
-  console.log(currentLeague);
-
   return (
     <nav aria-label="breadcrumb">
       <ol className="breadcrumb">

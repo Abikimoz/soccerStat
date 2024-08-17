@@ -18,18 +18,15 @@ export const LeagueStandingsPage = ({ onBack }) => {
 
   useEffect(() => {
     const loadStandings = async () => {
-      console.log('Загрузка данных для лиги с ID:', leagueId);
       if (!leagueId) return;
 
       setLoading(true);
       try {
         const response = await fetchStandings(leagueId);
-        console.log('Данные лиги:', response.data);
         setStandings(response.data);
         setFilteredMatches(response.data.matches || []);
         setError(null);
       } catch (err) {
-        console.error('Ошибка при загрузке данных:', err);
         setError('Ошибка при загрузке данных');
       } finally {
         setLoading(false);
@@ -41,23 +38,35 @@ export const LeagueStandingsPage = ({ onBack }) => {
 
   const handleFilter = useCallback(({ startDate, endDate }) => {
     if (standings && standings.matches) {
-      const filtered = standings.matches.filter(match => {
-        const matchDate = new Date(match.date);
-        const isAfterStartDate = startDate ? matchDate >= new Date(startDate) : true;
-        const isBeforeEndDate = endDate ? matchDate <= new Date(endDate) : true;
-        return isAfterStartDate && isBeforeEndDate;
-      });
-      setFilteredMatches(filtered);
-      setCurrentPage(1);
+        if (startDate && endDate) {
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+                // Обработка ошибок с некорректными датами
+                console.error('Некорректные даты');
+                return;
+            }
+
+            const filtered = standings.matches.filter(match => {
+                const matchDate = new Date(match.utcDate);
+                // Является ли дата матча в диапазоне
+                return matchDate >= start && matchDate <= end;
+            });
+            setFilteredMatches(filtered);
+        } else {
+            // Если даты не заданы, показываем все матчи
+            setFilteredMatches(standings.matches);
+        }
+        setCurrentPage(1); // Сбрасываем текущую страницу при изменении фильтра
     }
-  }, [standings]);
+}, [standings]);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   const leagueName = standings?.competition?.name;
-  console.log('Сюда я пишу название лиги!:', leagueName);
 
   return (
     <>
@@ -69,21 +78,25 @@ export const LeagueStandingsPage = ({ onBack }) => {
       ) : (
         <>
           <DateFilter onFilter={handleFilter} />
-          <LeagueStandings
-            standings={standings}
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-            filteredMatches={filteredMatches}
-          />
-          {filteredMatches.length > 0 && (
-            <CustomPagination
-              totalPages={Math.ceil(filteredMatches.length / itemsPerPage)}
-              activePage={currentPage}
-              onPageChange={paginate}
-            />
+          {filteredMatches.length === 0 ? ( // Проверка на наличие отфильтрованных матчей
+            <div>Нет матчей за выбранный период</div>
+          ) : (
+            <>
+              <LeagueStandings
+                standings={standings}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                filteredMatches={filteredMatches}
+              />
+              <CustomPagination
+                totalPages={Math.ceil(filteredMatches.length / itemsPerPage)}
+                activePage={currentPage}
+                onPageChange={paginate}
+              />
+            </>
           )}
         </>
       )}
     </>
-  );
+  );  
 };
