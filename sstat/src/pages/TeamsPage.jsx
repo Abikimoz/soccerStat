@@ -9,12 +9,11 @@ import { CustomPagination } from '../components/Pagination';
 export const TeamsPage = () => {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedTeam, setSelectedTeam] = useState(null);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
-  const itemsPerPage = 10;  
+  const itemsPerPage = 12;
 
   useEffect(() => {
     const loadTeams = async () => {
@@ -56,37 +55,36 @@ export const TeamsPage = () => {
   };
 
   const handleTeamSelect = (team) => {
-    setSelectedTeam(team);
     navigate(`/team/${team.id}`);
   };
 
+  const rows = Math.ceil(filteredTeams.length / 5);
+
   return (
-    <>
+    <div className="container">
       <SearchBar onSearchChange={handleSearchChange} />
       {loading ? (
         <Loader />
       ) : error ? (
-        <div className="error-message">{error}</div>
+        <div className="alert alert-danger">{error}</div>
       ) : (
         <>
           <div className="row">
             {currentTeams().length > 0 ? (
               currentTeams().map((team) => (
-                <div className="col" key={team.id}>
-                  <TeamCard team={team} onTeamSelect={handleTeamSelect} />
-                </div>
+                <TeamCard key={team.id} team={team} onTeamSelect={handleTeamSelect} />
               ))
             ) : (
-              <div className="text-center">Нет доступных команд.</div>
+              <div className="alert alert-warning">Нет доступных команд.</div>
             )}
           </div>
-          <CustomPagination
-            totalPages={totalPages}
-            activePage={currentPage}
-            onPageChange={paginate}
-          />
         </>
       )}
-    </>
+      <CustomPagination
+        totalPages={totalPages}
+        activePage={currentPage}
+        onPageChange={paginate}
+      />
+    </div>
   );
 };
