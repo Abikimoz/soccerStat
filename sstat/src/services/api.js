@@ -24,3 +24,27 @@ export const fetchStandings = (leagueId, dateFrom, dateTo) => {
     params, // передаем параметры в запрос
   });
 };
+
+export const fetchTeams = () => {
+  return axios.get('/api/v4/teams', { // Используйте правильный маршрут
+    headers: {
+      'X-Auth-Token': apiKey,
+    },
+  });
+};
+
+export const fetchTeamDetails = (teamId) => {
+  return axios.get(`/api/v4/teams/${teamId}`, { // Используйте правильный маршрут для команды
+    headers: {
+      'X-Auth-Token': apiKey,
+    },
+  });
+};
+
+export const fetchTeamMatches = (teamId) => {
+  return axios.get(`/api/v4/teams/${teamId}/matches`, { // Используйте правильный маршрут для матчей команды
+    headers: {
+      'X-Auth-Token': apiKey,
+    },
+  });
+};

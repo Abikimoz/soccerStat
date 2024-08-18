@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Leagues } from '../components/Leagues';
 import { SearchBar } from '../components/SearchBar';
 import { CustomPagination } from '../components/Pagination';
-import { Breadcrumbs } from '../components/Breadcrumbs';
 import { fetchLeagues } from '../services/api';
 import { Loader } from '../components/Loader';
 
@@ -62,7 +61,6 @@ export const LeaguesPage = ({ onBack }) => {
 
   return (
     <>
-      <Breadcrumbs currentLeague={selectedLeague} onBack={onBack} />
       <SearchBar onSearchChange={handleSearchChange} />
       {loading ? (
         <Loader />

@@ -8,6 +8,8 @@ import {
 import { Navbars } from './components/Navbars';
 import { LeaguesPage } from './pages/LeaguesPage';
 import { LeagueStandingsPage } from './pages/LeagueStandingsPage';
+import { TeamsPage } from './pages/TeamsPage'; // Импорт страницы команд
+import { TeamDetailsPage } from './pages/TeamDetailsPage'; // Импорт страницы деталей команды
 import { Layout } from './components/Layout';
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
                 path="/league/:id"
                 element={<LeagueStandingsPage onBack={handleBack} />}
               />
+              <Route path="/teams" element={<TeamsPage />} /> {/* Новый маршрут для TeamsPage */}
+              <Route path="/team/:id" element={<TeamDetailsPage />} /> {/* Новый маршрут для TeamDetailsPage */}
             </Routes>
           </Layout>
         </main>
